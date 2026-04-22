@@ -36,7 +36,7 @@ export interface Issue {
   issueNumber: number; // running issue number across all time
   weekday: string; // "Wednesday"
   prettyDate: string; // "April 22, 2026"
-  headline: Article;
+  headline: Article | null; // null on quiet days
   trends: Article[]; // 2-4 secondary stories
   editorialNote: string; // first-person, signed
   isQuietDay?: boolean;

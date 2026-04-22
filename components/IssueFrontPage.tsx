@@ -26,6 +26,10 @@ export function IssueFrontPage({ issue, isHomepage = false }: { issue: Issue; is
     );
   }
 
+  if (!issue.headline) {
+    throw new Error(`issue ${issue.date} is not a quiet day but has no headline`);
+  }
+
   // Split trends: first 2 fill the left column, rest become teaser cards on the right.
   const leftTrends = issue.trends.slice(0, 2);
   const rightTrends = issue.trends.slice(2);

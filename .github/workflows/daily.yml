@@ -1,0 +1,82 @@
+name: Daily issue
+on:
+  # 04:55 UTC  = 07:55 Europe/Sofia in summer (EEST, UTC+3)
+  #             = 06:55 Europe/Sofia in winter (EET,  UTC+2)
+  # Soft target is 7 AM Sofia. Adjust if you care about the winter hour.
+  schedule:
+    - cron: "55 4 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Target date (YYYY-MM-DD). Defaults to today."
+        required: false
+        default: ""
+      dry_run:
+        description: "Build without committing/pushing"
+        required: false
+        default: "false"
+
+concurrency:
+  group: daily-issue
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout artificialminded
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout rik-docs (for fetcher scripts)
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.RIK_DOCS_REPO }}
+          token: ${{ secrets.RIK_DOCS_TOKEN }}
+          path: rik-docs
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Configure git
+        run: |
+          git config user.name  "artificialminded-bot"
+          git config user.email "bot@artificialminded.com"
+
+      - name: Run daily pipeline
+        env:
+          # CLAUDE_CODE_OAUTH_TOKEN is the headless auth token minted from a
+          # logged-in laptop via: `claude setup-token`. Stored as a GH secret.
+          # Authenticates Claude Code against your Max plan — no per-call billing.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Fetcher keys. X fetcher skips gracefully if neither is set.
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          RIK_DOCS_ROOT: ${{ github.workspace }}/rik-docs
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '0' }}
+        run: |
+          DATE="${{ github.event.inputs.date }}"
+          if [ -z "$DATE" ]; then
+            bash pipeline/run-daily.sh
+          else
+            bash pipeline/run-daily.sh "$DATE"
+          fi
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-logs-${{ github.run_id }}
+          path: pipeline/logs/
+          retention-days: 7

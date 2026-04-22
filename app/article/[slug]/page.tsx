@@ -1,20 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { mockIssue } from "@/lib/mock-issue";
+import { findArticle, latestIssue } from "@/lib/load-issue";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { SignalBadge } from "@/components/SignalBadge";
 import { CouncilOpinion } from "@/components/CouncilOpinion";
 
-function getArticle(slug: string) {
-  // Phase 1: only mock issue. Phase 2 reads from content/articles/*.mdx.
-  const all = [mockIssue.headline, ...mockIssue.trends];
-  return all.find((a) => a.slug === slug);
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const article = await findArticle(slug);
   if (!article) return { title: "Not found" };
   return {
     title: article.title,
@@ -24,8 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 function renderBody(markdown: string) {
-  // Lightweight renderer for Phase 1. Phase 2 swaps in MDX/remark.
-  // Splits on blank lines into paragraphs; recognises ## headings; resolves [text](url) inline links.
+  // Minimal renderer: splits on blank lines, recognises ## headings, resolves [text](url) and *italic* inline.
   const blocks = markdown.split(/\n\n+/);
   return blocks.map((block, i) => {
     if (block.startsWith("## ")) {
@@ -36,7 +29,6 @@ function renderBody(markdown: string) {
 }
 
 function renderInline(text: string): React.ReactNode[] {
-  // Match [label](url) and *italic*. Naive but enough for Phase 1.
   const out: React.ReactNode[] = [];
   const re = /\[([^\]]+)\]\(([^)]+)\)|\*([^*]+)\*/g;
   let last = 0;
@@ -61,26 +53,26 @@ function renderInline(text: string): React.ReactNode[] {
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = getArticle(slug);
+  const [article, issue] = await Promise.all([findArticle(slug), latestIssue()]);
   if (!article) notFound();
 
   return (
     <>
       <Masthead
-        volume={mockIssue.volume}
-        issueNumber={mockIssue.issueNumber}
-        weekday={mockIssue.weekday}
-        prettyDate={mockIssue.prettyDate}
+        volume={issue.volume}
+        issueNumber={issue.issueNumber}
+        weekday={issue.weekday}
+        prettyDate={issue.prettyDate}
       />
       <article className="article">
         <div className="article-eyebrow">
-          {article.isHeadline ? "Top story" : "Today's stories"} · {mockIssue.prettyDate}
+          {article.isHeadline ? "Top story" : "Today's stories"} · {issue.prettyDate}
         </div>
         <h1 className="article-title">{article.title}</h1>
         <p className="article-deck">{article.deck}</p>
         <div className="article-meta">
           <span>
-            By the Editors · <SignalBadge signal={article.signal} />
+            By ArtificialMinded · <SignalBadge signal={article.signal} />
           </span>
           <span>
             {article.sources.length} sources cited
@@ -110,7 +102,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           ))}
         </ul>
       </article>
-      <Footer date={mockIssue.date} />
+      <Footer date={issue.date} />
     </>
   );
 }

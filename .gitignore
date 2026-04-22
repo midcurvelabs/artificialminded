@@ -10,3 +10,4 @@ out/
 
 pipeline/research/
 pipeline/logs/
+.vercel

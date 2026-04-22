@@ -1,19 +1,20 @@
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
-import { mockIssue } from "@/lib/mock-issue";
+import { latestIssue } from "@/lib/load-issue";
 
 export const metadata = {
   title: "About",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const issue = await latestIssue();
   return (
     <>
       <Masthead
-        volume={mockIssue.volume}
-        issueNumber={mockIssue.issueNumber}
-        weekday={mockIssue.weekday}
-        prettyDate={mockIssue.prettyDate}
+        volume={issue.volume}
+        issueNumber={issue.issueNumber}
+        weekday={issue.weekday}
+        prettyDate={issue.prettyDate}
       />
       <article className="article">
         <h1 className="article-title">About Artificially Minded Daily</h1>
@@ -36,7 +37,7 @@ export default function AboutPage() {
           </p>
         </div>
       </article>
-      <Footer date={mockIssue.date} />
+      <Footer date={issue.date} />
     </>
   );
 }

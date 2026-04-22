@@ -1,7 +1,7 @@
 import { IssueFrontPage } from "@/components/IssueFrontPage";
-import { mockIssue } from "@/lib/mock-issue";
+import { latestIssue } from "@/lib/load-issue";
 
-export default function HomePage() {
-  // Phase 1: hardcoded mock issue. Phase 2 swaps this for the latest MDX from content/issues/.
-  return <IssueFrontPage issue={mockIssue} isHomepage />;
+export default async function HomePage() {
+  const issue = await latestIssue();
+  return <IssueFrontPage issue={issue} isHomepage />;
 }
