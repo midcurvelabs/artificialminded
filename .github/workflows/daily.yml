@@ -1,10 +1,11 @@
 name: Daily issue
 on:
-  # 04:55 UTC  = 07:55 Europe/Sofia in summer (EEST, UTC+3)
-  #             = 06:55 Europe/Sofia in winter (EET,  UTC+2)
-  # Soft target is 7 AM Sofia. Adjust if you care about the winter hour.
+  # 02:55 UTC  = 05:55 Europe/Sofia in summer (EEST, UTC+3)
+  #             = 04:55 Europe/Sofia in winter (EET,  UTC+2)
+  # Target is ~5:55 AM Sofia in summer so the run finishes before Rik's Claude
+  # token bucket resets at 7 AM and burns into the fresh quota.
   schedule:
-    - cron: "55 4 * * *"
+    - cron: "55 2 * * *"
   workflow_dispatch:
     inputs:
       date:
