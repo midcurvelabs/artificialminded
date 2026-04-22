@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 1-fetch.sh — parallel-invoke the three rik-docs fetchers for today's research.
+# 1-fetch.sh — parallel-invoke the three fetchers for today's research.
 #
 # Writes:
 #   pipeline/research/<DATE>/reddit.md
@@ -11,7 +11,6 @@
 #   pipeline/1-fetch.sh [YYYY-MM-DD]
 #
 # Env:
-#   RIK_DOCS_ROOT  — path to rik-docs repo (default: ~/Documents/rik-docs)
 #   XAI_API_KEY or OPENROUTER_API_KEY — needed for X fetcher (otherwise it skips gracefully)
 #
 # Exit codes:
@@ -21,8 +20,7 @@
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-RIK_DOCS_ROOT="${RIK_DOCS_ROOT:-$HOME/Documents/rik-docs}"
-FETCHERS="$RIK_DOCS_ROOT/07_system/scripts"
+FETCHERS="$REPO_ROOT/pipeline/fetchers"
 
 DATE="${1:-$(TZ=Europe/Sofia date +%Y-%m-%d)}"
 OUTDIR="$REPO_ROOT/pipeline/research/$DATE"
@@ -54,13 +52,12 @@ TOPICS=(
 
 # Sanity check the fetchers exist.
 for script in \
-  "$FETCHERS/trend-brief-fetch-reddit.py" \
-  "$FETCHERS/trend-brief-fetch-github.sh" \
-  "$FETCHERS/trend-brief-fetch-x.sh"
+  "$FETCHERS/fetch-reddit.py" \
+  "$FETCHERS/fetch-github.sh" \
+  "$FETCHERS/fetch-x.sh"
 do
   if [ ! -f "$script" ]; then
     echo "[fatal] missing fetcher: $script" >&2
-    echo "[hint]  set RIK_DOCS_ROOT to the rik-docs repo root" >&2
     exit 1
   fi
 done
@@ -68,15 +65,15 @@ done
 echo "[info] fetching research for $DATE → $OUTDIR"
 
 # Launch all three in parallel. Each logs to its own file.
-python3 "$FETCHERS/trend-brief-fetch-reddit.py" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
+python3 "$FETCHERS/fetch-reddit.py" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
   > "$LOGDIR/reddit.log" 2>&1 &
 REDDIT_PID=$!
 
-bash "$FETCHERS/trend-brief-fetch-github.sh" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
+bash "$FETCHERS/fetch-github.sh" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
   > "$LOGDIR/github.log" 2>&1 &
 GITHUB_PID=$!
 
-bash "$FETCHERS/trend-brief-fetch-x.sh" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
+bash "$FETCHERS/fetch-x.sh" "$DATE" "$OUTDIR" "${TOPICS[@]}" \
   > "$LOGDIR/x.log" 2>&1 &
 X_PID=$!
 
