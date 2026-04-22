@@ -67,11 +67,28 @@ The trust hit is real. The product is still excellent. Whether those two facts c
           url: "https://github.com/onlook-dev/onlook",
         },
       ],
-      body: `A 14-year software dev posted Tuesday that he let four interns vibe-code from day one with rules. Two months in, the post hit 591 upvotes and 75 comments. The thread reads as a workshop manual, not a victory lap.
+      body: `A 14-year software dev posted Tuesday that he let four interns vibe-code from day one — with rules. Two months in, [the post](https://reddit.com/r/vibecoding/comments/1srljsv/i_let_my_interns_vibe_code_from_day_one_but_with/) hit 591 upvotes and 75 comments on r/vibecoding. The thread reads as a workshop manual, not a victory lap. Interns pair-program with the LLM; senior eyes review every PR; a written rulebook bounds what vibe-coding is allowed to touch and what it isn't. The comments are practical — tool choices, pitfalls, onboarding time. Nobody is arguing about whether vibecoding counts.
 
-On GitHub, [Onlook](https://github.com/onlook-dev/onlook) — the Cursor-for-designers project — crossed 25,000 stars. Easy-vibe sits at 6k. Both are tools for shipping, not arguing. On X, builders posted onchain tip jars deployed in fifteen minutes and multiplayer games shipped from a single prompt.
+## The tools stopped asking for permission
 
-The shift is from "is vibecoding real" to "what did you ship this week." The discourse moved on. The tools followed.`,
+On GitHub, [Onlook](https://github.com/onlook-dev/onlook) — the "Cursor for designers" project — crossed 25,000 stars this week. Easy-vibe sits at 6k. Neither repo is pitching a manifesto. Both ship a product: a canvas where a non-coder can build a real app by describing changes in natural language, with the code materializing underneath. The README reads like a product page, not a research claim.
+
+On X, the genre has calcified. Builders post onchain tip jars deployed in fifteen minutes. Multiplayer browser games shipped from a single prompt. Internal tools written during a long flight. The posts don't argue that vibecoding works. They assume it and measure the output.
+
+## What changed
+
+The 2025 discourse was about legitimacy. "Is this real engineering?" "Will the code hold?" "What happens when it breaks?" Those questions are still valid, but they've been answered in the only way that matters in this industry: somebody shipped it, somebody else copied the pattern, the pattern worked, and now it's a market. The interns post is evidence that the debate moved from the editorial pages to the training docs.
+
+The rules part matters more than the vibe part. Every durable workflow in the threads has the same shape: scoped problem, explicit constraints, human review, shipped output. Vibecoding without rules is a demo. Vibecoding with rules is a junior engineer's onboarding path.
+
+## What to watch
+
+Two signals for the next thirty days. First, hiring posts — when "vibecoding literacy" shows up in a job description from a company that isn't an AI lab, the framing has won. Second, the tool consolidation. Onlook, easy-vibe, Cursor, v0 and their imitators are all converging on the same product shape. Whoever owns the "builder who can't code" wedge in six months will own the next wave of indie launches.`,
+      council: {
+        bull: "The discourse shift is the win. Once the question becomes 'what did you ship', the builder economy expands by an order of magnitude. Every designer and PM is now latent engineering supply.",
+        bear: "Two months of intern output is not a track record. The pattern collapses the first time a vibe-coded system touches money, auth, or a regulated dataset without senior review.",
+        builder: "Write the rules before you let anyone vibe on your codebase — yours or your intern's. The interns post is a template. Fork it. Your playbook should fit on one page.",
+      },
     },
     {
       slug: "2026-04-22-context-engineering-eats-prompts",
@@ -89,9 +106,28 @@ The shift is from "is vibecoding real" to "what did you ship this week." The dis
           url: "https://github.com/davidkimai/Context-Engineering",
         },
       ],
-      body: `Karpathy's line — "filling the context window with just the right information" — is now everywhere. Five GitHub repos with 170k combined stars are using the context-engineering framing. Prompt engineering, as a phrase, is fading.
+      body: `Karpathy's line — "filling the context window with just the right information, at just the right time" — has quietly become the organizing principle of the field. Five GitHub repos with roughly 170,000 combined stars are now using the context-engineering framing in their READMEs, including [context-engineering-intro](https://github.com/coleam00/context-engineering-intro) and [Context-Engineering](https://github.com/davidkimai/Context-Engineering). Two years ago the same folder structure would have been called "prompt engineering." Today the phrase sounds dated.
 
-Claude Code with CLAUDE.md is the de facto implementation. The same idea, applied to vault structure, is what makes Obsidian + Claude work. Anyone who's been organizing their workspace for retrieval has been doing this for a year. The vocabulary just caught up.`,
+## The shift is methodological, not semantic
+
+Prompt engineering was a craft: you wrote a clever instruction, tuned it, and hoped the model did the thing. Context engineering is a system: you decide what goes into the window, in what order, with what citations, with what constraints, and you treat the whole bundle as the unit of work. The prompt is a small part of that bundle. The big parts are the files, the retrieved snippets, the tool results, the memory, the constraints.
+
+This matters because the failure modes are different. A bad prompt produces a bad answer. A bad context produces a confidently wrong answer that looks right, which is far more expensive. The discipline of context engineering is the discipline of not letting that happen.
+
+## CLAUDE.md is the canonical implementation
+
+The pattern that won is file-system-native. Claude Code reads a CLAUDE.md from your repo, loads it into every session, and now your "prompt" is a version-controlled document that lives with the code. Cursor Rules, Windsurf memories, and Aider conventions are the same idea in different dialects. Obsidian vaults with an LLM on top use the same shape applied to knowledge instead of code. The convergence is hard to miss.
+
+The implication for builders: stop iterating on prompts in a chat window. Move them into files. Treat the context bundle as the product. Version it, review it, test it.
+
+## What to watch
+
+Two tells. First, whether the framing gets absorbed into training and evaluation — benchmarks like "long-context faithfulness" and "context packing" are already drifting this way. Second, tooling. A standard format for context bundles (something between Dockerfiles and prompt files) is the obvious next step. The repo that nails it will be next year's 50k-star project.`,
+      council: {
+        bull: "Context engineering is the missing layer that turns LLMs from impressive toys into reliable tools. The teams that internalize it now will compound for years.",
+        bear: "It's rebranded prompt engineering with more ceremony. Calling a folder of markdown 'engineering' doesn't make it rigorous — show me the tests, the metrics, the SLAs.",
+        builder: "If your agent has no CLAUDE.md, Cursor Rules, or equivalent, start there this week. The 80% win is getting your constraints out of your head and into a file the model actually reads.",
+      },
     },
     {
       slug: "2026-04-22-local-models-cross-the-threshold",
@@ -109,9 +145,28 @@ Claude Code with CLAUDE.md is the de facto implementation. The same idea, applie
           url: "https://github.com/khoj-ai/khoj",
         },
       ],
-      body: `A working llama.cpp config for Qwen3.6-35B-A3B on an RTX 4060 with 8GB VRAM hit r/LocalLLaMA Tuesday. Sixty-four upvotes, thirty real comments, working setup. A second thread from a developer doing actual local coding work for the first time crossed 28 upvotes with the headline "I thought it would take way longer."
+      body: `A working llama.cpp config for Qwen3.6-35B-A3B on an [RTX 4060 with 8GB VRAM](https://reddit.com/r/LocalLLaMA/comments/1ss9pku/running_qwen3635ba3b_locally_for_coding_agent_my/) hit r/LocalLLaMA Tuesday. Sixty-four upvotes, thirty real comments from people who actually ran it, quantization settings in the replies. A second thread from a developer doing local coding work for the first time crossed 28 upvotes with the title *I thought it would take way longer*. Neither post is a benchmark war. Both are "here's the command that worked on a consumer GPU I already own."
 
-The "you need a five-thousand-euro Mac" story is breaking down. The hardware bar fell. The model bar rose. The intersection is here.`,
+## The hardware story collapsed
+
+For most of the last two years, "local models" meant "you need a Mac Studio." The useful models didn't fit, the useful quantizations degraded them too hard, and the toolchain was a part-time job. Every month a new thread promised the breakthrough. Every month the comments said "try again next quarter."
+
+Qwen3.6 is the quarter it stops being next quarter. A 35B MoE model with 3B active parameters at the right quantization fits comfortably in 8GB VRAM, runs fast enough for agentic loops, and produces code that a working developer chose to commit. That's the threshold. Not "matches Claude." Not "beats GPT-4o." *Useful, on hardware you already own.* The distance between that threshold and general adoption is measured in weeks, not years.
+
+## The ecosystem caught up
+
+Tooling closed the gap at the same time. [khoj](https://github.com/khoj-ai/khoj) ships a local-first knowledge agent that runs against Ollama or llama.cpp with one config change. Ollama's library now carries the Qwen family as first-class citizens. VS Code extensions, Zed integrations, and Aider all accept local model endpoints without the "experimental" flag. The friction that used to kill adoption — installing four things to get one loop working — is gone.
+
+The Anthropic Claude Code story (see today's headline) is the demand side of the same curve. When the cloud provider you trust changes the deal, the substitute you built in advance becomes the substitute you use tomorrow. A non-trivial number of the prosumer Pro subscribers who spent Tuesday complaining on Reddit will spend this weekend getting a local stack running. Some of them will stay.
+
+## What to watch
+
+Three things. First, the Ollama download graph for Qwen3.6 — a step change in the next two weeks means the migration thesis is real. Second, whether Apple ships a Metal-native MoE runtime that makes the 32GB M-series machines the obvious second home for these models. Third, the IDE companies. If Cursor, Zed, or JetBrains starts shipping a "local-first" tier with first-class local model support, the cloud-only assumption dies that month.`,
+      council: {
+        bull: "This is the inflection. Once local coding agents run on the GPU in your gaming PC, the default assumption flips from cloud-first to local-first for anyone who cares about cost, privacy, or reliability.",
+        bear: "One config on one GPU is not a market. Frontier model quality is still years ahead for anything non-trivial, and the median developer doesn't want to maintain a local inference stack.",
+        builder: "Install Ollama this weekend. Pull Qwen3.6. Point your existing Aider or Cursor setup at it. Even if you go back to cloud, knowing your fallback works is worth the Sunday afternoon.",
+      },
     },
   ],
   editorialNote: `Three of today's stories rhyme. Anthropic taking Claude Code off Pro. Local models actually shipping useful coding work on consumer hardware. Vibecoders moving from posts to products. The throughline: the cost of *not* owning your stack is rising. The cost of running it locally is falling. We are not at the crossover yet. We are close enough that prudent builders will stop pretending we won't get there.
