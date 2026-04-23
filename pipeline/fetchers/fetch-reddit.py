@@ -1,13 +1,29 @@
 #!/usr/bin/env python3
 """Fetch Reddit top-of-day threads for a set of topics and write reddit.md.
 
-Usage: trend-brief-fetch-reddit.py <DATE> <OUTDIR> <topic1> [topic2] ...
+Usage: fetch-reddit.py <DATE> <OUTDIR> <topic1> [topic2] ...
+
+Auth: Reddit blocks datacenter IPs (GitHub Actions, Hetzner, etc.) on
+anonymous requests to www.reddit.com. This script uses a Reddit
+"script" app via OAuth2 client_credentials against oauth.reddit.com.
+
+Env:
+    REDDIT_CLIENT_ID       — script-app client id
+    REDDIT_CLIENT_SECRET   — script-app secret
+    REDDIT_USERNAME        — Reddit username (used in UA per Reddit rules)
+
+Missing env or auth failure: logs to _errors.md and exits 0 with an
+empty reddit.md, matching the existing "fetcher failures don't fail
+the pipeline" contract — quality gate downgrades to quiet day.
 """
+import base64
 import html
 import json
 import os
 import re
 import sys
+import urllib.error
+import urllib.parse
 import urllib.request
 
 SUBREDDITS = [
@@ -56,26 +72,103 @@ def first_sentence(s: str, max_words: int = 25) -> str:
     return " ".join(words[:max_words]) + ("..." if len(words) > max_words else "")
 
 
-def fetch(sub: str):
-    url = f"https://www.reddit.com/r/{sub}/top.json?t=day&limit=25"
-    req = urllib.request.Request(url, headers={"User-Agent": "rik-trend-agent/1.0"})
+def _err_body(e: urllib.error.HTTPError) -> str:
+    try:
+        return e.read().decode("utf-8", errors="replace")[:200].replace("\n", " ")
+    except Exception:
+        return ""
+
+
+def get_bearer_token(client_id: str, client_secret: str, ua: str) -> str:
+    """Exchange script-app creds for a bearer token. Raises on failure."""
+    auth = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+    body = urllib.parse.urlencode({"grant_type": "client_credentials"}).encode()
+    req = urllib.request.Request(
+        "https://www.reddit.com/api/v1/access_token",
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": f"Basic {auth}",
+            "User-Agent": ua,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=15) as r:
+        payload = json.load(r)
+    token = payload.get("access_token")
+    if not token:
+        raise RuntimeError(f"no access_token in response: {payload}")
+    return token
+
+
+def fetch(sub: str, token: str, ua: str):
+    url = f"https://oauth.reddit.com/r/{sub}/top.json?t=day&limit=25"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "User-Agent": ua,
+        },
+    )
     with urllib.request.urlopen(req, timeout=15) as r:
         return json.load(r)
 
 
+def write_empty(outdir: str, date: str, reason: str):
+    """Write a minimal reddit.md + _errors.md entry when auth is unavailable."""
+    errors_path = os.path.join(outdir, "_errors.md")
+    with open(errors_path, "a") as f:
+        f.write(f"- Reddit auth: {reason}\n")
+    outpath = os.path.join(outdir, "reddit.md")
+    with open(outpath, "w") as f:
+        f.write(f"# Reddit research — {date}\n\n_no reddit data (auth unavailable)_\n")
+    print(f"reddit: auth unavailable — {reason}", file=sys.stderr)
+
+
 def main():
     if len(sys.argv) < 4:
-        print("usage: trend-brief-fetch-reddit.py <DATE> <OUTDIR> <topic> [topic...]", file=sys.stderr)
+        print("usage: fetch-reddit.py <DATE> <OUTDIR> <topic> [topic...]", file=sys.stderr)
         sys.exit(2)
     date = sys.argv[1]
     outdir = sys.argv[2]
     input_topics = sys.argv[3:]
     os.makedirs(outdir, exist_ok=True)
     errors_path = os.path.join(outdir, "_errors.md")
+
+    client_id = os.environ.get("REDDIT_CLIENT_ID", "").strip()
+    client_secret = os.environ.get("REDDIT_CLIENT_SECRET", "").strip()
+    username = os.environ.get("REDDIT_USERNAME", "").strip()
+
+    if not (client_id and client_secret and username):
+        missing = [
+            k for k, v in (
+                ("REDDIT_CLIENT_ID", client_id),
+                ("REDDIT_CLIENT_SECRET", client_secret),
+                ("REDDIT_USERNAME", username),
+            ) if not v
+        ]
+        write_empty(outdir, date, f"missing env: {', '.join(missing)}")
+        return
+
+    ua = f"artificialminded-research/1.0 (by /u/{username})"
+
+    try:
+        token = get_bearer_token(client_id, client_secret, ua)
+    except urllib.error.HTTPError as e:
+        write_empty(outdir, date, f"token HTTP {e.code}: {_err_body(e)}")
+        return
+    except Exception as e:
+        write_empty(outdir, date, f"token error: {e}")
+        return
+
     all_threads = []
     for sub in SUBREDDITS:
         try:
-            data = fetch(sub)
+            data = fetch(sub, token, ua)
+        except urllib.error.HTTPError as e:
+            with open(errors_path, "a") as f:
+                f.write(f"- Reddit r/{sub}: HTTP {e.code} — {_err_body(e)}\n")
+            continue
         except Exception as e:
             with open(errors_path, "a") as f:
                 f.write(f"- Reddit r/{sub}: {e}\n")

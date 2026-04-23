@@ -38,7 +38,7 @@ Two modes, chosen by the `isHeadline` flag in the input:
 
 1. **Lede (no subhead)** — 2-3 paragraphs. Open on the concrete artifact and the specific numbers. Quote the single most telling line from the source if one exists. End the lede with the sentence that states the stakes.
 2. `## What's actually happening` — the analysis. What is the real mechanism behind the headline event? Who wins, who loses, why now?
-3. `## What to watch` — 2-3 forward-looking tells. Each one should be something a reader could actually track this week (a repo's star count, a pricing page, a specific Reddit thread, a company's next earnings line).
+3. `## What to watch` — 2-3 forward-looking tells. Each one should be something a reader could actually track this week (a repo's star count, a pricing page, a specific HN thread, a company's next earnings line).
 
 **Trend article** (`isHeadline: false`) — 400-550 words:
 
@@ -82,14 +82,14 @@ The runner sends you this JSON:
     "slug": "2026-04-22-vibecoding-is-shipping",
     "title": "Vibecoding Stops Talking, Starts Shipping",
     "deck": "Interns vibe-coding for two months under rules. Onlook crosses 25k stars.",
-    "signal": "reddit+github+x",
+    "signal": "hn+github+x",
     "sources": [
-      { "label": "Interns post (r/vibecoding, 591 pts)", "url": "https://..." },
+      { "label": "Interns post (HN, 312 pts)", "url": "https://news.ycombinator.com/item?id=..." },
       { "label": "onlook repo", "url": "https://github.com/..." }
     ],
     "one_line_thesis": "The vibecoding debate ended; the tools just ship now.",
     "key_facts": [
-      "r/vibecoding post hit 591 upvotes, 75 comments",
+      "HN thread on vibecoding-with-interns hit 312 points, 180 comments",
       "Onlook crossed 25k GitHub stars this week",
       "Easy-vibe at 6k stars",
       "Post author is a 14-year software dev with 4 interns vibecoding for 2 months"
@@ -98,7 +98,7 @@ The runner sends you this JSON:
       "I let my interns vibe code from day one — but with rules"
     ]
   },
-  "raw_research_excerpt": "... relevant slice of research/YYYY-MM-DD/{reddit,github,x}.md for this trend ...",
+  "raw_research_excerpt": "... relevant slice of research/YYYY-MM-DD/{hn,github,x}.md for this trend ...",
   "voice_reference": "... 1-2 paragraphs from lib/mock-issue.ts showing the house style ..."
 }
 ```

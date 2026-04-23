@@ -1,6 +1,6 @@
 ---
 name: synthesize-trends
-description: Rank the day's research (reddit.md, github.md, x.md) into 5-7 trends (target) and write synthesis.json. Called by pipeline/run-daily.sh between fetch and quality-gate steps. Reads pipeline/prompts/synthesis.md for the full voice + output contract.
+description: Rank the day's research (hn.md, github.md, x.md) into 5-7 trends (target) and write synthesis.json. Called by pipeline/run-daily.sh between fetch and quality-gate steps. Reads pipeline/prompts/synthesis.md for the full voice + output contract.
 ---
 
 # /synthesize-trends — daily trend ranker
@@ -8,7 +8,7 @@ description: Rank the day's research (reddit.md, github.md, x.md) into 5-7 trend
 **Trigger:** `/synthesize-trends <YYYY-MM-DD>` (date defaults to today, Europe/Sofia)
 
 **Input:**
-- `pipeline/research/<DATE>/reddit.md`
+- `pipeline/research/<DATE>/hn.md`
 - `pipeline/research/<DATE>/github.md`
 - `pipeline/research/<DATE>/x.md`
 - `pipeline/prompts/synthesis.md` — full prompt spec (ranking rules, required fields, quality checklist)
@@ -47,7 +47,7 @@ Treat that file as your system prompt. Follow it exactly.
 
 Read all three research files:
 
-- `pipeline/research/<DATE>/reddit.md`
+- `pipeline/research/<DATE>/hn.md`
 - `pipeline/research/<DATE>/github.md`
 - `pipeline/research/<DATE>/x.md`
 

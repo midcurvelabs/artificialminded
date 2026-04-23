@@ -59,6 +59,9 @@ jobs:
           # Fetcher keys. X fetcher skips gracefully if neither is set.
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          # HN fetcher (Algolia) is unauthenticated. Reddit fetcher is
+          # kept in the tree but not wired into 1-fetch.sh — reinstate
+          # once the Responsible Builder ticket is approved.
           DRY_RUN: ${{ github.event.inputs.dry_run == 'true' && '1' || '0' }}
         run: |
           DATE="${{ github.event.inputs.date }}"

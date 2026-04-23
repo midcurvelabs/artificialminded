@@ -80,40 +80,64 @@ def main() -> int:
     headline = synthesis.get("headline")
     trends = synthesis.get("trends", [])
 
-    reasons = []
-
-    if not headline:
-        reasons.append("no headline")
-    else:
-        hp = validate_trend(headline)
-        if hp:
-            reasons.append(f"headline invalid: {hp}")
-
-    total = (1 if headline else 0) + len(trends)
-    if total < MIN_TOTAL_TRENDS:
-        reasons.append(f"only {total} trends (need >= {MIN_TOTAL_TRENDS})")
-
+    dropped = []
+    kept_trends = []
     for i, t in enumerate(trends):
         tp = validate_trend(t)
         if tp:
-            reasons.append(f"trend #{i + 1} ({t.get('slug', '?')}) invalid: {tp}")
+            dropped.append(f"trend #{i + 1} ({t.get('slug', '?')}): {tp}")
+        else:
+            kept_trends.append(t)
+
+    headline_problems = []
+    if not headline:
+        headline_problems.append("no headline")
+    else:
+        hp = validate_trend(headline)
+        if hp:
+            headline_problems.append(f"headline invalid: {hp}")
+
+    if headline_problems and kept_trends:
+        promoted = kept_trends.pop(0)
+        promoted["isHeadline"] = True
+        dropped.append(f"headline promoted from trend: {promoted.get('slug', '?')}")
+        headline = promoted
+        headline_problems = []
+
+    reasons = list(headline_problems)
+
+    total = (1 if headline else 0) + len(kept_trends)
+    if total < MIN_TOTAL_TRENDS:
+        reasons.append(f"only {total} valid trends after drop (need >= {MIN_TOTAL_TRENDS})")
 
     cross_platform_count = sum(
-        1 for t in ([headline] if headline else []) + trends
+        1 for t in ([headline] if headline else []) + kept_trends
         if is_cross_platform(t.get("signal", ""))
     )
     if cross_platform_count < 2:
         reasons.append(
-            f"only {cross_platform_count} trends have cross-platform signal (need >= 2)"
+            f"only {cross_platform_count} valid trends have cross-platform signal (need >= 2)"
         )
 
     if not reasons:
+        if dropped:
+            print("[filter] dropped invalid trends:")
+            for d in dropped:
+                print(f"  - {d}")
+            synthesis["headline"] = headline
+            synthesis["trends"] = kept_trends
+            synthesis_path.write_text(
+                json.dumps(synthesis, indent=2, ensure_ascii=False) + "\n"
+            )
+            print(f"[write] rewrote {synthesis_path.relative_to(REPO_ROOT)} with {total} valid trends")
         print(f"[pass] {total} trends, {cross_platform_count} cross-platform — ship it")
         return 0
 
     print("[downgrade] quality gate failed:")
     for r in reasons:
         print(f"  - {r}")
+    for d in dropped:
+        print(f"  - dropped: {d}")
 
     seed = synthesis.get("editorial_note_seed") or (
         "Signal was low today. The pipeline could not find three stories with strong "
