@@ -2,7 +2,7 @@
 {
   "slug": "ai-disruption-tracker",
   "title": "AI Disruption Tracker \u2014 Who Got Hit, By What, How Hard",
-  "tldr": "The \"SaaSpocalypse\" of early 2026 wasn't a rumor \u2014 a $285B market cap wipeout triggered by Anthropic's Cowork + enterprise plugins in Feb 2026. <!-- src: https://markets.financialcontent.com/wral/article/marketminute-2026-3-30-the-saaspocalypse-of-2026-how-generative-ai-broke-the-software-growth-engine --> The companies that got hit split into three camps: design tools, horizontal SaaS, and developer Q&A. Below: what happened, to whom, and what it signals for the next domino.",
+  "tldr": "The \"SaaSpocalypse\" of early 2026 wasn't a rumor \u2014 a $285B market cap wipeout triggered by Anthropic's Cowork + enterprise plugins in Feb 2026. The companies that got hit split into three camps: design tools, horizontal SaaS, and developer Q&A. Below: what happened, to whom, and what it signals for the next domino.",
   "cluster": "model-wars",
   "confidence": "medium",
   "created": "2026-04-23",

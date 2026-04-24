@@ -904,6 +904,24 @@ a.cluster-chip:hover { background: var(--accent); text-decoration: none; }
   padding: 1px 4px;
 }
 
+/* Footnote references promoted from `[^N]` inside table cells. */
+.compare-footnote-ref {
+  font-family: "Courier New", monospace;
+  font-size: 0.7em;
+  margin-left: 2px;
+  line-height: 1;
+}
+.compare-footnote-ref a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0 2px;
+  border-bottom: 1px dotted var(--ink);
+}
+.compare-footnote-ref a:hover {
+  color: #8b7a1a;
+  border-bottom-color: #8b7a1a;
+}
+
 /* Recharts overrides for newspaper feel */
 .compare-chart .recharts-wrapper { font-family: Georgia, "Times New Roman", serif; }
 .compare-chart .recharts-default-tooltip {

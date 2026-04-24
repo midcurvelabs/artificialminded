@@ -149,6 +149,10 @@ def extract_tldr(body: str) -> str:
     text = m.group(1)
     # Collapse any continuation `> ...` lines.
     text = re.sub(r"\n>\s*", " ", text)
+    # Strip `<!-- src: URL -->` citation markers - they're for the body, not the TLDR.
+    text = SRC_COMMENT.sub("", text)
+    # Collapse any double spaces left behind.
+    text = re.sub(r"\s{2,}", " ", text)
     return text.strip()
 
 

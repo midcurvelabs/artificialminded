@@ -2,7 +2,7 @@
 {
   "slug": "run-ai-at-home",
   "title": "Run AI At Home \u2014 The 2026 Local LLM Hardware Grid",
-  "tldr": "Two serious paths in April 2026. **Speed-per-dollar on \u226432GB models**: RTX 5090 wins by 2\u20133\u00d7. <!-- src: https://strategyarena.io/en/blog/rtx-5090-vs-strix-halo-ia-locale-2026 --> **Running 70B+ without quantization**: Mac Studio M3 Ultra is the only sub-$5K desktop that does it. <!-- src: https://www.compute-market.com/blog/rtx-5090-vs-mac-studio-m4-max-local-ai-2026 --> Everything else (Pi, Jetson, Mac Mini, Strix Halo) fits between, each with a niche. Ollama (CLI) and LM Studio (GUI) both use llama.cpp under the hood \u2014 performance difference is ~20-30% in Ollama's favor on raw llama.cpp, but LM Studio's MLX backend flips it by 26-60% on Apple Silicon. <!-- src: https://tech-insider.org/lm-studio-vs-ollama-2026/ -->",
+  "tldr": "Two serious paths in April 2026. **Speed-per-dollar on \u226432GB models**: RTX 5090 wins by 2\u20133\u00d7. **Running 70B+ without quantization**: Mac Studio M3 Ultra is the only sub-$5K desktop that does it. Everything else (Pi, Jetson, Mac Mini, Strix Halo) fits between, each with a niche. Ollama (CLI) and LM Studio (GUI) both use llama.cpp under the hood \u2014 performance difference is ~20-30% in Ollama's favor on raw llama.cpp, but LM Studio's MLX backend flips it by 26-60% on Apple Silicon.",
   "cluster": "compute-race",
   "confidence": "high",
   "created": "2026-04-23",

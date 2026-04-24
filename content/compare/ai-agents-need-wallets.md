@@ -2,7 +2,7 @@
 {
   "slug": "ai-agents-need-wallets",
   "title": "AI Agents Need Wallets \u2014 The 2026 Payment Protocol Grid",
-  "tldr": "Every major payments player launched an agent-payment protocol within ~90 days of each other in early 2026. Coinbase x402 (HTTP-native, stablecoin-first) and Google AP2 (multi-rail, signed \"Intent Mandates\") are the two real winners \u2014 and they **interop**, not compete. <!-- src: https://www.coinbase.com/developer-platform/discover/launches/google_x402 --> Stripe bridged both. Visa TAP and PayPal Agent Commerce exist but are card-rail footnotes so far. By April 2026, x402 alone has reportedly processed 100M+ payments. <!-- src: https://www.fintechwrapup.com/p/deep-dive-is-x402-payments-protocol -->",
+  "tldr": "Every major payments player launched an agent-payment protocol within ~90 days of each other in early 2026. Coinbase x402 (HTTP-native, stablecoin-first) and Google AP2 (multi-rail, signed \"Intent Mandates\") are the two real winners \u2014 and they **interop**, not compete. Stripe bridged both. Visa TAP and PayPal Agent Commerce exist but are card-rail footnotes so far. By April 2026, x402 alone has reportedly processed 100M+ payments.",
   "cluster": "compute-race",
   "confidence": "high",
   "created": "2026-04-23",

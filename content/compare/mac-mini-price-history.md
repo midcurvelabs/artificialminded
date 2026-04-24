@@ -2,7 +2,7 @@
 {
   "slug": "mac-mini-price-history",
   "title": "Mac Mini Price History \u2014 $599 Is the Most Aggressive Price Apple Has Held",
-  "tldr": "Apple held the Mac Mini base price at **$599** across M1 (2020) \u2192 M2 (2023) \u2192 M4 (2024), while doubling baseline RAM (8GB \u2192 16GB in the M4) and shipping ~1.8\u00d7 CPU and 2.2\u00d7 GPU performance vs M1. <!-- src: https://www.macrumors.com/guide/m1-vs-m2-vs-m4-mac-mini/ --> That makes the M4 Mini the single best \"entry to local AI\" hardware Apple has ever shipped \u2014 and it's the reason the Mac Mini is now a routine pick for local LLM work.",
+  "tldr": "Apple held the Mac Mini base price at **$599** across M1 (2020) \u2192 M2 (2023) \u2192 M4 (2024), while doubling baseline RAM (8GB \u2192 16GB in the M4) and shipping ~1.8\u00d7 CPU and 2.2\u00d7 GPU performance vs M1. That makes the M4 Mini the single best \"entry to local AI\" hardware Apple has ever shipped \u2014 and it's the reason the Mac Mini is now a routine pick for local LLM work.",
   "cluster": "compute-race",
   "confidence": "high",
   "created": "2026-04-23",

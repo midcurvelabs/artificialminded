@@ -6,7 +6,7 @@
   "cluster": "model-wars",
   "confidence": "high",
   "created": "2026-04-23",
-  "updated": "2026-04-23",
+  "updated": "2026-04-24",
   "aliases": [
     "OpenAI vs Anthropic",
     "Anthropic vs OpenAI"
@@ -66,6 +66,8 @@
 
 **Related:** anthropic is winning enterprise by not chasing chatgpt · the claude model ladder is a cost capability dial · [claude vs gpt](/compare/claude-vs-gpt) · the frontier is a three horse race
 
+::chart[arr-trajectory]
+
 ## Snapshot table
 
 | Dimension | OpenAI | Anthropic |
@@ -91,6 +93,10 @@
 | **Enterprise AI assistant market share** | Declining from lead | 18% (2024) → 29% (2025), +61% YoY [^12] |
 
 See claude code is the reference agent runtime and why cli coding agents beat ide embedded ones.
+
+::chart[coding-tool-arr]
+
+::chart[enterprise-share]
 
 ## The founder split story (2020-2021)
 

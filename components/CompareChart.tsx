@@ -5,6 +5,7 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  LabelList,
   Legend,
   Line,
   LineChart,
@@ -343,6 +344,16 @@ function ScatterSeries({ spec }: Props) {
               }
             />
           ))}
+          <LabelList
+            dataKey="label"
+            position="top"
+            offset={8}
+            style={{
+              fill: CHART_COLORS.ink,
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontSize: 11,
+            }}
+          />
         </Scatter>
       </ScatterChart>
     </ResponsiveContainer>

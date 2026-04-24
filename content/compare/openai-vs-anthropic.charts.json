@@ -1,0 +1,90 @@
+{
+  "slug": "openai-vs-anthropic",
+  "charts": [
+    {
+      "id": "arr-trajectory",
+      "type": "line",
+      "title": "Annualized revenue trajectory",
+      "subtitle": "Anthropic's cross-over moment, April 2026. Composite from Sacra + SaaStr + vendor disclosures; directional.",
+      "yFormat": "currency",
+      "source": "Sacra + SaaStr + vendor disclosures",
+      "sourceUrl": "https://sacra.com/c/anthropic/",
+      "lastVerified": "2026-04-24",
+      "series": [
+        {
+          "name": "OpenAI",
+          "color": "#1a1a1a",
+          "data": [
+            { "x": "Q1 2024", "y": 1.6 },
+            { "x": "Q3 2024", "y": 3.7 },
+            { "x": "Q1 2025", "y": 10 },
+            { "x": "Q3 2025", "y": 13 },
+            { "x": "Q1 2026", "y": 25 }
+          ]
+        },
+        {
+          "name": "Anthropic",
+          "color": "#f5c400",
+          "data": [
+            { "x": "Q1 2024", "y": 0.4 },
+            { "x": "Q3 2024", "y": 1.0 },
+            { "x": "Q1 2025", "y": 2.0 },
+            { "x": "Q3 2025", "y": 7 },
+            { "x": "Q1 2026", "y": 30 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "enterprise-share",
+      "type": "line",
+      "title": "Enterprise AI assistant share — Claude's climb",
+      "subtitle": "Menlo Ventures / Panto composite. Percent of enterprise AI assistant spend won by each vendor.",
+      "yFormat": "percent",
+      "source": "Panto / Menlo Ventures enterprise survey",
+      "sourceUrl": "https://www.getpanto.ai/blog/claude-ai-statistics",
+      "lastVerified": "2026-04-24",
+      "series": [
+        {
+          "name": "OpenAI",
+          "color": "#1a1a1a",
+          "data": [
+            { "x": "2023", "y": 50 },
+            { "x": "2024", "y": 39 },
+            { "x": "2025", "y": 25 }
+          ]
+        },
+        {
+          "name": "Anthropic",
+          "color": "#f5c400",
+          "data": [
+            { "x": "2023", "y": 12 },
+            { "x": "2024", "y": 18 },
+            { "x": "2025", "y": 29 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coding-tool-arr",
+      "type": "grouped-bar",
+      "title": "Coding tool ARR — Claude Code vs Codex",
+      "subtitle": "Claude Code's grassroots adoption is the clearest revenue gap between the two labs.",
+      "yFormat": "currency",
+      "source": "Panto AI statistics + OpenAI disclosures",
+      "sourceUrl": "https://www.getpanto.ai/blog/claude-ai-statistics",
+      "lastVerified": "2026-04-24",
+      "highlight": "Claude Code",
+      "series": [
+        {
+          "name": "ARR ($B)",
+          "color": "#1a1a1a",
+          "data": [
+            { "x": "OpenAI Codex", "y": 0.75 },
+            { "x": "Claude Code", "y": 2.5 }
+          ]
+        }
+      ]
+    }
+  ]
+}

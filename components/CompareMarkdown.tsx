@@ -1,3 +1,4 @@
+import { Children, isValidElement, type ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
@@ -27,6 +28,38 @@ function domainOf(url: string): string {
   }
 }
 
+// remark-gfm doesn't wire up `[^N]` footnote refs inside GFM table cells,
+// so they render as literal text. Walk text children and promote those
+// patterns into proper `<sup><a href="#user-content-fn-N">N</a></sup>` links.
+const FOOTNOTE_REF = /\[\^(\d+)\]/g;
+
+function promoteFootnoteRefs(children: ReactNode): ReactNode {
+  return Children.map(children, (child) => {
+    if (typeof child === "string") {
+      if (!child.includes("[^")) return child;
+      const parts: ReactNode[] = [];
+      let lastIndex = 0;
+      for (const m of child.matchAll(FOOTNOTE_REF)) {
+        const id = m[1];
+        const start = m.index ?? 0;
+        if (start > lastIndex) parts.push(child.slice(lastIndex, start));
+        parts.push(
+          <sup key={`${start}-${id}`} className="compare-footnote-ref">
+            <a href={`#user-content-fn-${id}`} id={`user-content-fnref-${id}`}>
+              {id}
+            </a>
+          </sup>,
+        );
+        lastIndex = start + m[0].length;
+      }
+      if (lastIndex < child.length) parts.push(child.slice(lastIndex));
+      return parts;
+    }
+    if (isValidElement(child)) return child;
+    return child;
+  });
+}
+
 const components: Components = {
   table({ children }) {
     return (
@@ -34,6 +67,12 @@ const components: Components = {
         <table className="compare-table">{children}</table>
       </div>
     );
+  },
+  td({ children }) {
+    return <td>{promoteFootnoteRefs(children)}</td>;
+  },
+  th({ children }) {
+    return <th>{promoteFootnoteRefs(children)}</th>;
   },
   a({ href, children }) {
     if (!href) return <a>{children}</a>;
