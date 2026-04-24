@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { cache } from "react";
 import type { Cluster, Compare } from "./compare-types";
+import type { ChartSpec, ChartsFile } from "./chart-types";
 
 const COMPARE_DIR = path.join(process.cwd(), "content", "compare");
 
@@ -68,3 +69,17 @@ export async function listCompareSlugs(): Promise<string[]> {
   const all = await getAllCompares();
   return all.map((c) => c.slug);
 }
+
+export const getCompareCharts = cache(
+  async (slug: string): Promise<ChartSpec[]> => {
+    const p = path.join(COMPARE_DIR, `${slug}.charts.json`);
+    if (!(await fileExists(p))) return [];
+    const raw = await fs.readFile(p, "utf-8");
+    try {
+      const parsed = JSON.parse(raw) as ChartsFile;
+      return parsed.charts ?? [];
+    } catch {
+      return [];
+    }
+  },
+);

@@ -843,3 +843,84 @@ a.cluster-chip:hover { background: var(--accent); text-decoration: none; }
   .compare-table th, .compare-table td { padding: 6px 8px; }
   .site-nav { gap: 12px; padding: 8px 18px; font-size: 10px; }
 }
+
+/* ---------- compare charts ---------- */
+.compare-chart {
+  margin: 28px 0;
+  padding: 20px 18px 14px;
+  background: var(--page);
+  border: 1px solid var(--ink);
+  border-left: 4px solid var(--accent);
+}
+.compare-chart-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 12px;
+  font-family: "Courier New", monospace;
+}
+.compare-chart-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.compare-chart-subtitle {
+  font-size: 13px;
+  color: #444;
+  font-style: italic;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.4;
+}
+.compare-chart-canvas {
+  width: 100%;
+  min-height: 180px;
+}
+.compare-chart-source {
+  margin-top: 10px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+  border-top: 1px solid #d8d0c0;
+  padding-top: 8px;
+}
+.compare-chart-source a { color: var(--ink); text-decoration: underline; }
+.compare-chart-source a:hover { color: #8b7a1a; }
+.compare-chart-verified { color: #888; text-transform: none; letter-spacing: normal; font-style: italic; }
+.compare-chart-missing {
+  margin: 16px 0;
+  padding: 10px 14px;
+  background: #fff4e5;
+  border-left: 3px solid #d97706;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #7c2d12;
+}
+.compare-chart-missing code {
+  background: rgba(0,0,0,0.08);
+  padding: 1px 4px;
+}
+
+/* Recharts overrides for newspaper feel */
+.compare-chart .recharts-wrapper { font-family: Georgia, "Times New Roman", serif; }
+.compare-chart .recharts-default-tooltip {
+  background: var(--page) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 12px !important;
+}
+.compare-chart .recharts-tooltip-label {
+  color: var(--ink) !important;
+  font-weight: 900;
+}
+.compare-chart .recharts-cartesian-axis-tick-value { font-family: Georgia, serif; }
+
+@media (max-width: 700px) {
+  .compare-chart { padding: 14px 10px 10px; margin: 20px 0; }
+  .compare-chart-title { font-size: 16px; }
+  .compare-chart-subtitle { font-size: 12px; }
+}

@@ -279,6 +279,7 @@ def main() -> int:
         args.dest.mkdir(parents=True, exist_ok=True)
 
     wrote = 0
+    copied_charts = 0
     for p in files:
         slug, content = sync_file(p, valid_slugs)
         dest = args.dest / f"{slug}.md"
@@ -288,7 +289,21 @@ def main() -> int:
             dest.write_text(content, encoding="utf-8")
         wrote += 1
 
+        # Copy sidecar chart spec file if it exists.
+        sidecar = p.with_suffix(".charts.json")
+        if sidecar.exists():
+            dest_sidecar = args.dest / f"{slug}.charts.json"
+            if args.dry_run:
+                print(f"[dry-run] would copy {sidecar} -> {dest_sidecar}")
+            else:
+                dest_sidecar.write_text(
+                    sidecar.read_text(encoding="utf-8"), encoding="utf-8"
+                )
+            copied_charts += 1
+
     print(f"synced {wrote} compare notes -> {args.dest}")
+    if copied_charts:
+        print(f"  (+ {copied_charts} chart sidecar{'s' if copied_charts != 1 else ''})")
     return 0
 
 

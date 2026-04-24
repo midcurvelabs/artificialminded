@@ -10,6 +10,7 @@ import { ClusterChip } from "@/components/ClusterChip";
 import { ConfidenceBadge } from "@/components/ConfidenceBadge";
 import {
   getCompare,
+  getCompareCharts,
   getRelatedCompares,
   listCompareSlugs,
 } from "@/lib/load-compare";
@@ -59,10 +60,11 @@ export default async function ComparePage(
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params;
-  const [compare, issue, related] = await Promise.all([
+  const [compare, issue, related, charts] = await Promise.all([
     getCompare(slug),
     latestIssue(),
     getRelatedCompares(slug),
+    getCompareCharts(slug),
   ]);
   if (!compare) notFound();
 
@@ -132,7 +134,11 @@ export default async function ComparePage(
 
         <ComparisonHero compare={compare} />
 
-        <CompareMarkdown body={compare.body} sources={compare.sources} />
+        <CompareMarkdown
+          body={compare.body}
+          sources={compare.sources}
+          charts={charts}
+        />
 
         {related.length > 0 && (
           <aside className="compare-related">

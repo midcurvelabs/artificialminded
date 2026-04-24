@@ -1,0 +1,69 @@
+{
+  "slug": "claude-vs-gpt",
+  "charts": [
+    {
+      "id": "intelligence-leaderboard",
+      "type": "hbar",
+      "title": "Artificial Analysis Intelligence Index",
+      "subtitle": "GPT-5.5 leads the composite as of April 24, 2026. Higher is smarter.",
+      "xFormat": "number",
+      "source": "Artificial Analysis",
+      "sourceUrl": "https://artificialanalysis.ai/",
+      "lastVerified": "2026-04-24",
+      "highlight": "GPT-5.5",
+      "series": [
+        {
+          "name": "Intelligence",
+          "data": [
+            { "x": "GPT-5.5", "y": 60 },
+            { "x": "Claude Opus 4.7", "y": 57 },
+            { "x": "Gemini 3.1 Pro", "y": 57 },
+            { "x": "GPT-5.4", "y": 57 },
+            { "x": "Kimi K2.6", "y": 54 },
+            { "x": "Claude Sonnet 4.6", "y": 51 },
+            { "x": "DeepSeek V4", "y": 50 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "coding-grid",
+      "type": "grouped-bar",
+      "title": "Coding benchmark grid",
+      "subtitle": "SWE-Bench Verified, SWE-Bench Pro (Scale), and AA Coding Index. Claude Opus 4.7 holds the coding lead.",
+      "yFormat": "percent",
+      "source": "Artificial Analysis + Scale SWE-Bench Pro",
+      "sourceUrl": "https://labs.scale.com/leaderboard/swe_bench_pro_public",
+      "lastVerified": "2026-04-24",
+      "series": [
+        {
+          "name": "Claude Opus 4.7",
+          "color": "#1a1a1a",
+          "data": [
+            { "x": "SWE-Bench Verified", "y": 87.6 },
+            { "x": "SWE-Bench Pro", "y": 64.3 },
+            { "x": "AA Coding Index", "y": 95.3 }
+          ]
+        },
+        {
+          "name": "GPT-5.4",
+          "color": "#f5c400",
+          "data": [
+            { "x": "SWE-Bench Verified", "y": 85.0 },
+            { "x": "SWE-Bench Pro", "y": 55.6 },
+            { "x": "AA Coding Index", "y": 92.0 }
+          ]
+        },
+        {
+          "name": "Gemini 3.1 Pro",
+          "color": "#666666",
+          "data": [
+            { "x": "SWE-Bench Verified", "y": 80.6 },
+            { "x": "SWE-Bench Pro", "y": 43.3 },
+            { "x": "AA Coding Index", "y": 95.0 }
+          ]
+        }
+      ]
+    }
+  ]
+}

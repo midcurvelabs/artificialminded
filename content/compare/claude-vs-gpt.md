@@ -60,6 +60,8 @@
 | **Context window** | 400K (est) confidence: medium | 1M tokens [^4] | 400K (GPT-5.4) / 200K (GPT-5) |
 | **API price (per MTok)** | ~$11.3 out (xhigh tier) [^1]; input TBD | $5 in / $25 out [^4] | $2.50 in / $15 out (standard); $30 in / $180 out (Pro) [^3] |
 
+::chart[intelligence-leaderboard]
+
 ## Benchmark grid (April 2026)
 
 | Benchmark | GPT-5.5 | Claude Opus 4.7 | GPT-5.4 | Gemini 3.1 Pro |
@@ -76,6 +78,8 @@
 | **HumanEval** | Saturated (~99%) — no longer informative for frontier | Same | Same |
 
 > **Note on older benchmarks:** HumanEval and even SWE-Bench Verified are closing in on saturation. 2026's informative benchmarks are SWE-Bench Pro, GDPval, Aider polyglot, and Artificial Analysis' composite. See [god mode benchmark 16 tasks](/compare/god-mode-benchmark-16-tasks) for Rik's canonical builder-task benchmark.
+
+::chart[coding-grid]
 
 ## Coding strength — the cleanest gap
 

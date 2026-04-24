@@ -87,6 +87,8 @@
 
 **Related:** pricing and token economics of ai coding 2026 · reasoning models changed the pricing curve · [open source vs closed models](/compare/open-source-vs-closed-models)
 
+::chart[price-ladder]
+
 ## Full grid (USD per 1M tokens)
 
 | Model | Input $ | Output $ | Context | Notes |
@@ -122,6 +124,10 @@
 | GLM-5.1 | $3/mo subscription model [^14] | | 256K | Unusual pricing |
 | MiniMax M2.7 | 0.30 | ~1.20 [^15] | 256K | |
 | gpt-oss 120B (Together) | ~0.15 | ~0.60 confidence: medium | 128K | |
+
+::chart[input-vs-output]
+
+::chart[price-vs-intelligence]
 
 ## Context window matters
 

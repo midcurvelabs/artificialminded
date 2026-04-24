@@ -2,6 +2,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
 import type { CompareSource } from "@/lib/compare-types";
+import type { ChartSpec } from "@/lib/chart-types";
+import { CompareChart } from "./CompareChart";
 
 /**
  * Append footnote definitions derived from frontmatter.sources so remark-gfm
@@ -56,25 +58,82 @@ const components: Components = {
   },
 };
 
+// `::chart[id]` must appear on its own line to be treated as a block marker.
+const CHART_MARKER = /^::chart\[([a-z0-9-_]+)\]\s*$/i;
+
+interface SegmentText {
+  kind: "text";
+  body: string;
+}
+interface SegmentChart {
+  kind: "chart";
+  id: string;
+}
+
+function splitOnChartMarkers(body: string): (SegmentText | SegmentChart)[] {
+  const lines = body.split("\n");
+  const segments: (SegmentText | SegmentChart)[] = [];
+  let buffer: string[] = [];
+  const flush = () => {
+    if (buffer.length === 0) return;
+    segments.push({ kind: "text", body: buffer.join("\n") });
+    buffer = [];
+  };
+  for (const line of lines) {
+    const match = line.match(CHART_MARKER);
+    if (match) {
+      flush();
+      segments.push({ kind: "chart", id: match[1] });
+    } else {
+      buffer.push(line);
+    }
+  }
+  flush();
+  return segments;
+}
+
 export function CompareMarkdown({
   body,
   sources,
+  charts = [],
 }: {
   body: string;
   sources: CompareSource[];
+  charts?: ChartSpec[];
 }) {
+  const chartById = new Map(charts.map((c) => [c.id, c]));
+  const segments = splitOnChartMarkers(body);
+
   return (
     <div className="compare-body">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        remarkRehypeOptions={{
-          footnoteLabel: "Sources",
-          footnoteBackLabel: "Back to citation",
-        }}
-        components={components}
-      >
-        {withFootnotes(body, sources)}
-      </ReactMarkdown>
+      {segments.map((seg, i) => {
+        if (seg.kind === "chart") {
+          const spec = chartById.get(seg.id);
+          if (!spec) {
+            return (
+              <div key={i} className="compare-chart-missing">
+                Chart <code>{seg.id}</code> not found.
+              </div>
+            );
+          }
+          return <CompareChart key={i} spec={spec} />;
+        }
+        const isLast = i === segments.length - 1;
+        const content = isLast ? withFootnotes(seg.body, sources) : seg.body;
+        return (
+          <ReactMarkdown
+            key={i}
+            remarkPlugins={[remarkGfm]}
+            remarkRehypeOptions={{
+              footnoteLabel: "Sources",
+              footnoteBackLabel: "Back to citation",
+            }}
+            components={components}
+          >
+            {content}
+          </ReactMarkdown>
+        );
+      })}
     </div>
   );
 }
