@@ -11,3 +11,5 @@ out/
 pipeline/research/
 pipeline/logs/
 .vercel
+
+.worktrees/
