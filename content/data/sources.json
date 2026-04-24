@@ -1,0 +1,49 @@
+{
+  "_comment": "Authoritative data sources for the /compare hub. Mirror of ~/Documents/rik-docs/wiki/ai/compare/_data-sources.md. Pipeline reads this to know where to fetch fresh numbers from.",
+  "_lastUpdated": "2026-04-24",
+  "primary": [
+    {
+      "id": "artificial-analysis",
+      "name": "Artificial Analysis",
+      "url": "https://artificialanalysis.ai/",
+      "leaderboard": "https://artificialanalysis.ai/leaderboards/models",
+      "purpose": "Intelligence Index, Coding Index, Agentic Index, LM Arena Elo, premium-tier pricing",
+      "updateCadence": "continuous",
+      "api": null,
+      "scrape": true
+    },
+    {
+      "id": "openrouter-models",
+      "name": "OpenRouter Models API",
+      "url": "https://openrouter.ai/api/v1/models",
+      "purpose": "Authoritative input/output pricing + context length for every model",
+      "updateCadence": "near-realtime",
+      "api": "json",
+      "auth": "none",
+      "responseShape": "data[].pricing.{prompt,completion}, data[].context_length"
+    },
+    {
+      "id": "openrouter-rankings",
+      "name": "OpenRouter Rankings",
+      "url": "https://openrouter.ai/rankings",
+      "purpose": "Actual developer usage by tokens (revealed preference, not benchmarks)",
+      "updateCadence": "weekly",
+      "api": null,
+      "scrape": true
+    }
+  ],
+  "vendorPages": {
+    "anthropic": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "openai": "https://openai.com/api/pricing/",
+    "google": "https://ai.google.dev/pricing",
+    "deepseek": "https://api-docs.deepseek.com/quick_start/pricing",
+    "xai": "https://docs.x.ai/docs/models",
+    "moonshot": "https://platform.moonshot.ai/docs/pricing/chat"
+  },
+  "benchmarkPages": {
+    "swe-bench": "https://www.swebench.com/",
+    "swe-bench-pro": "https://labs.scale.com/leaderboard/swe_bench_pro_public",
+    "lm-arena": "https://lmarena.ai/",
+    "aider-polyglot": "https://aider.chat/docs/leaderboards/"
+  }
+}

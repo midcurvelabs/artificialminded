@@ -32,6 +32,7 @@ from pathlib import Path
 
 
 SKIP_FILES = {"_index.md"}
+SKIP_PREFIXES = ("_",)  # any file starting with `_` is a meta/private note
 DEFAULT_SOURCE = Path.home() / "Documents" / "rik-docs" / "wiki" / "ai" / "compare"
 
 
@@ -267,7 +268,11 @@ def main() -> int:
         print(f"error: source dir not found: {src_dir}", file=sys.stderr)
         return 1
 
-    files = [p for p in sorted(src_dir.glob("*.md")) if p.name not in SKIP_FILES]
+    files = [
+        p
+        for p in sorted(src_dir.glob("*.md"))
+        if p.name not in SKIP_FILES and not p.name.startswith(SKIP_PREFIXES)
+    ]
     valid_slugs = {p.stem for p in files}
 
     if not args.dry_run:
