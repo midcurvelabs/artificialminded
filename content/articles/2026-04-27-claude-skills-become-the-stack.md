@@ -32,7 +32,7 @@
     "bear": "Forking other people's skills is cosplay. You inherit someone else's taste and ship it as if it were yours, which is the exact slop *taste-skill* was supposed to stop.",
     "builder": "Fork [mattpocock/skills](https://github.com/mattpocock/skills) today to learn the format, then rewrite one skill in your own voice by Friday. The fork teaches the syntax. The rewrite keeps the voice."
   },
-  "isHeadline": false
+  "isHeadline": true
 }
 ---
 
