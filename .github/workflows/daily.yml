@@ -1,11 +1,13 @@
 name: Daily issue
 on:
-  # 02:55 UTC  = 05:55 Europe/Sofia in summer (EEST, UTC+3)
-  #             = 04:55 Europe/Sofia in winter (EET,  UTC+2)
-  # Target is ~5:55 AM Sofia in summer so the run finishes before Rik's Claude
-  # token bucket resets at 7 AM and burns into the fresh quota.
-  schedule:
-    - cron: "55 2 * * *"
+  # SCHEDULE DISABLED 2026-04-27 — VPS is now the canonical producer.
+  # The unified daily pipeline runs on openclaw VPS at 04:13/10:13/16:13/22:13
+  # Sofia (4 cycles/day, 2 articles per cycle = 8/day). See:
+  #   rik-docs/06_agents/plans/2026-04-24-unified-daily-pipeline-plan.md
+  #   rik-docs/07_system/scripts/vps-cycle.sh
+  # Re-enable only if VPS is down for an extended period.
+  # schedule:
+  #   - cron: "55 2 * * *"
   workflow_dispatch:
     inputs:
       date:
