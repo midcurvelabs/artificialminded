@@ -21,7 +21,7 @@ export function Masthead({ volume, issueNumber, weekday, prettyDate, isHomepage 
     <header className="masthead">
       <div className="masthead-eyebrow">A daily field report from the AI frontier</div>
       <h1 className="masthead-title">
-        {isHomepage ? title : <Link href="/">{title}</Link>}
+        {isHomepage ? title : <Link href="/today">{title}</Link>}
       </h1>
       <div className="masthead-meta">
         <span className="edition">
