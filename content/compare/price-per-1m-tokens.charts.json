@@ -1,0 +1,97 @@
+{
+  "slug": "price-per-1m-tokens",
+  "charts": [
+    {
+      "id": "price-ladder",
+      "type": "hbar",
+      "title": "Input price per 1M tokens — the frontier ladder",
+      "subtitle": "Cheap tier to premium, April 2026. Logarithmic reality: 600× span from Nano to Opus 4.7.",
+      "xFormat": "currency",
+      "source": "OpenRouter Models API + vendor pricing pages",
+      "sourceUrl": "https://openrouter.ai/api/v1/models",
+      "lastVerified": "2026-04-24",
+      "highlight": "Claude Opus 4.7",
+      "series": [
+        {
+          "name": "Input $/1M",
+          "data": [
+            { "x": "GPT-5 Nano", "y": 0.05 },
+            { "x": "Llama 4 Scout", "y": 0.10 },
+            { "x": "DeepSeek V3.2", "y": 0.14 },
+            { "x": "DeepSeek V4", "y": 0.30 },
+            { "x": "GPT-5 (original)", "y": 0.63 },
+            { "x": "Kimi K2.6", "y": 0.74 },
+            { "x": "Claude Haiku 4.5", "y": 1.00 },
+            { "x": "Gemini 3.1 Pro", "y": 2.00 },
+            { "x": "GPT-5.4", "y": 2.50 },
+            { "x": "Claude Sonnet 4.6", "y": 3.00 },
+            { "x": "Claude Opus 4.7", "y": 5.00 },
+            { "x": "GPT-5.4 Pro", "y": 30.00 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "input-vs-output",
+      "type": "grouped-bar",
+      "title": "Input vs output pricing — frontier models only",
+      "subtitle": "Output is always ~5-6× input. Reasoning tiers (Pro, xhigh) widen the gap.",
+      "yFormat": "currency",
+      "source": "OpenRouter Models API",
+      "sourceUrl": "https://openrouter.ai/api/v1/models",
+      "lastVerified": "2026-04-24",
+      "series": [
+        {
+          "name": "Input",
+          "color": "#1a1a1a",
+          "data": [
+            { "x": "GPT-5.4", "y": 2.5 },
+            { "x": "Gemini 3.1 Pro", "y": 2.0 },
+            { "x": "Sonnet 4.6", "y": 3.0 },
+            { "x": "Opus 4.7", "y": 5.0 },
+            { "x": "Kimi K2.6", "y": 0.74 }
+          ]
+        },
+        {
+          "name": "Output",
+          "color": "#f5c400",
+          "data": [
+            { "x": "GPT-5.4", "y": 15 },
+            { "x": "Gemini 3.1 Pro", "y": 12 },
+            { "x": "Sonnet 4.6", "y": 15 },
+            { "x": "Opus 4.7", "y": 25 },
+            { "x": "Kimi K2.6", "y": 4.66 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "price-vs-intelligence",
+      "type": "scatter",
+      "title": "Price vs intelligence — find the efficient frontier",
+      "subtitle": "Output $/1M against AA Intelligence Index. Lower-right = best value; upper-left = premium.",
+      "xLabel": "Output $/1M tokens",
+      "yLabel": "AA Intelligence Index",
+      "xFormat": "currency",
+      "yFormat": "number",
+      "source": "Artificial Analysis + OpenRouter",
+      "sourceUrl": "https://artificialanalysis.ai/",
+      "lastVerified": "2026-04-24",
+      "series": [
+        {
+          "name": "Frontier models",
+          "data": [
+            { "x": 11.3, "y": 60, "label": "GPT-5.5" },
+            { "x": 25, "y": 57, "label": "Opus 4.7" },
+            { "x": 12, "y": 57, "label": "Gemini 3.1 Pro" },
+            { "x": 15, "y": 57, "label": "GPT-5.4" },
+            { "x": 4.66, "y": 54, "label": "Kimi K2.6" },
+            { "x": 15, "y": 51, "label": "Sonnet 4.6" },
+            { "x": 5, "y": 48, "label": "Haiku 4.5" },
+            { "x": 0.28, "y": 46, "label": "DeepSeek V3.2" }
+          ]
+        }
+      ]
+    }
+  ]
+}
