@@ -24,6 +24,14 @@ mkdir -p "$OUTDIR"
 OUTFILE="$OUTDIR/x.md"
 ERRFILE="$OUTDIR/_errors.md"
 
+# DISABLED 2026-04-30 — OpenRouter spend cap. Re-enable by removing this block.
+{
+  echo "# X research — $DATE"
+  echo "_skipped: X fetcher disabled (OpenRouter spend cap)_"
+} > "$OUTFILE"
+echo "x: skipped (disabled)"
+exit 0
+
 if [ -z "${XAI_API_KEY:-}" ] && [ -z "${OPENROUTER_API_KEY:-}" ]; then
   {
     echo "# X research — $DATE"

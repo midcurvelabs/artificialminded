@@ -2,11 +2,10 @@
 
 import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
 import { shaderMaterial, useGLTF } from "@react-three/drei";
-import { useRef, useMemo, Suspense } from "react";
+import { useRef, useMemo, useState, useEffect, Suspense } from "react";
 import * as THREE from "three";
 
 const BRAIN_URL = "/brain.glb";
-useGLTF.preload(BRAIN_URL);
 
 /* ───────────────────────────────────────────────
  * Custom matte+fresnel shader for the brain shell.
@@ -90,9 +89,35 @@ const BrainMaterial = shaderMaterial(
 );
 extend({ BrainMaterial });
 
+/* Procedural brain-ish geometry — used as fallback while
+ * /brain.glb is missing. Smoothed icosphere with hemisphere
+ * fissure and procedural folds. */
+function proceduralBrainGeometry() {
+  const geo = new THREE.IcosahedronGeometry(1, 32);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i);
+    v.x *= 1.1;
+    v.y *= 0.92;
+    v.z *= 0.85;
+    const fissure = Math.exp(-Math.pow(v.x / 0.05, 2)) * 0.05;
+    v.y -= fissure;
+    const folds =
+      Math.sin(v.x * 7.0 + v.y * 3.0) * 0.04 +
+      Math.cos(v.y * 6.0 + v.z * 4.0) * 0.035 +
+      Math.sin(v.z * 8.0 + v.x * 2.0) * 0.03;
+    const n = v.clone().normalize();
+    v.addScaledVector(n, folds);
+    pos.setXYZ(i, v.x, v.y, v.z);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+
 /* Pull the first BufferGeometry out of the loaded GLB scene,
  * center it, and rescale so its bounding sphere fits radius 1. */
-function useNormalizedBrainGeometry() {
+function useGLBGeometry() {
   const { scene } = useGLTF(BRAIN_URL) as unknown as {
     scene: THREE.Group;
   };
@@ -104,10 +129,7 @@ function useNormalizedBrainGeometry() {
         source = (obj as THREE.Mesh).geometry as THREE.BufferGeometry;
       }
     });
-    if (!source) {
-      // Last-resort fallback so the page never breaks.
-      return new THREE.IcosahedronGeometry(1, 16);
-    }
+    if (!source) return proceduralBrainGeometry();
 
     const geo = (source as THREE.BufferGeometry).clone();
     geo.computeBoundingBox();
@@ -122,6 +144,31 @@ function useNormalizedBrainGeometry() {
   }, [scene]);
 }
 
+/* Hook: HEAD-check /brain.glb so we don't suspend on a missing file. */
+function useGLBAvailable() {
+  const [available, setAvailable] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(BRAIN_URL, { method: "HEAD" })
+      .then((r) => {
+        if (!cancelled && r.ok) setAvailable(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return available;
+}
+
+function BrainGLB(props: { onGeometry: (g: THREE.BufferGeometry) => void }) {
+  const geo = useGLBGeometry();
+  useEffect(() => {
+    props.onGeometry(geo);
+  }, [geo, props]);
+  return null;
+}
+
 function Brain() {
   const meshRef = useRef<THREE.Mesh>(null);
   const wireRef = useRef<THREE.LineSegments>(null);
@@ -129,7 +176,9 @@ function Brain() {
   const lightRef = useRef<THREE.PointLight>(null);
   const { mouse, viewport, camera } = useThree();
 
-  const geometry = useNormalizedBrainGeometry();
+  const proceduralGeo = useMemo(proceduralBrainGeometry, []);
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry>(proceduralGeo);
+  const glbAvailable = useGLBAvailable();
   const wireGeometry = useMemo(
     () => new THREE.WireframeGeometry(geometry),
     [geometry]
@@ -227,6 +276,13 @@ function Brain() {
           depthWrite={false}
         />
       </lineSegments>
+
+      {/* If a real /brain.glb exists, load it inside Suspense and swap. */}
+      {glbAvailable && (
+        <Suspense fallback={null}>
+          <BrainGLB onGeometry={setGeometry} />
+        </Suspense>
+      )}
     </group>
   );
 }
