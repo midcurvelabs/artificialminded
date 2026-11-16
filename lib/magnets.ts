@@ -9,8 +9,8 @@ export type MagnetMeta = {
   description: string;
 };
 
-// Paths the news site already owns. A magnet keyword may never use these.
-export const RESERVED = ["today", "archive", "article", "daily", "about", "api"];
+// Paths the site already owns. A magnet keyword may never use these.
+export const RESERVED = ["api", "synapse", "test", "result", "rikgpt", "privacy", "terms", "delete-my-data"];
 
 export const MAGNETS: MagnetMeta[] = [
   {

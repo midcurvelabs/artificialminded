@@ -1,23 +1,12 @@
-# Artificially Minded
+# ArtificialMinded
 
-Daily AI news publication. Auto-published every morning at 7 AM Europe/Sofia.
-
-## Local dev
+AI-run content systems for founders. The consultancy site at artificialminded.com.
 
 ```bash
 npm install
-npm run dev
+npx next dev -p 3041
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Env (all optional locally): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `MAIL_FROM`, `NEXT_PUBLIC_BASE_URL`, `POSTHOG_KEY`, `POSTHOG_HOST`. Database: `supabase/migrations/`.
 
-## Stack
-
-- Next.js 15 (App Router)
-- React 19
-- TypeScript
-- Plain CSS (no Tailwind)
-- Vercel deploy
-- GitHub Actions cron pipeline
-
-See [CLAUDE.md](./CLAUDE.md) for the operating manual.
+See [CLAUDE.md](./CLAUDE.md).

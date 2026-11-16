@@ -13,3 +13,5 @@ pipeline/logs/
 .vercel
 
 .worktrees/
+
+.data/

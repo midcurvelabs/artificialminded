@@ -3,23 +3,23 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Artificially Minded Daily — A daily field report from the AI frontier",
-    template: "%s · Artificially Minded Daily",
+    default: "ArtificialMinded · AI-run content systems for founders",
+    template: "%s · ArtificialMinded",
   },
   description:
-    "A daily newspaper of what is actually happening in AI, vibecoding, agents, and the open frontier. Published every morning at 7 AM CET.",
+    "I build the AI pipeline and run the content engine on it, in public, on @rikgpt. Take the 2-minute test to see which of the two you need first.",
   metadataBase: new URL("https://artificialminded.com"),
   openGraph: {
-    title: "Artificially Minded Daily",
-    description: "A daily field report from the AI frontier.",
+    title: "ArtificialMinded",
+    description: "AI-run content systems for founders.",
     url: "https://artificialminded.com",
-    siteName: "Artificially Minded Daily",
+    siteName: "ArtificialMinded",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Artificially Minded Daily",
-    description: "A daily field report from the AI frontier.",
+    title: "ArtificialMinded",
+    description: "AI-run content systems for founders.",
   },
 };
 

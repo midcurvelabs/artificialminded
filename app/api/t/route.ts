@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { getMagnet } from "@/lib/magnets";
 
-// First-party relay for magnet-page events. Keeps the PostHog key server-side and
+// First-party relay for magnet-page and Owner Test events. Keeps the PostHog key server-side and
 // gets past ad blockers. Without POSTHOG_KEY it just logs, so local dev needs no setup.
 
 const EVENTS = new Set(["magnet_view", "magnet_engaged", "magnet_copy", "magnet_finish"]);
+// The Owner Test sends these with keyword "owner-test" (anonymous, no answers, only the question number and result type).
+const TEST_EVENTS = new Set(["test_start", "test_question", "test_complete", "test_email_saved", "test_email_skipped"]);
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 const clip = (v: unknown, n = 100) => (typeof v === "string" ? v.slice(0, n) : undefined);
 
@@ -18,7 +20,8 @@ export async function POST(req: Request) {
     return new NextResponse(null, { status: 400 });
   }
 
-  if (!EVENTS.has(data?.event) || !getMagnet(data?.keyword)) {
+  const isTest = data?.keyword === "owner-test" && TEST_EVENTS.has(data?.event);
+  if (!isTest && (!EVENTS.has(data?.event) || !getMagnet(data?.keyword))) {
     return new NextResponse(null, { status: 400 });
   }
 
