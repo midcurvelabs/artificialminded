@@ -28,7 +28,7 @@ Next.js 15 App Router, React 19, TypeScript, plain CSS. Local dev: `npx next dev
 - Never invent a number. Add it to `lib/proof.ts` with its file and date first.
 - No em dashes. No "viral", no "grow your account".
 - Homepage stays abstract (Rik, 15 Nov): the brain plus small corner labels, nothing else. Positioning is a hint (two short lines bottom left), not a pitch. No sections, prices, numbers or news framing. New content means swapping a line, not adding a block.
-- Single CTA: "Book a 45-minute call", a Cal.com link in `BOOKING_URL` (`lib/site.ts`). While it is null the button shows a visible placeholder.
+- Single CTA: "Book a call", a 30-minute Cal.com event (`BOOKING_URL` in `lib/site.ts`, https://cal.com/rikos/30min). If it is ever set to null the link shows "[no link]".
 - Consent box never pre-ticked; a wording change gets a new `CONSENT_VERSION` in `lib/consent.ts`.
 - Secrets (Supabase, Resend, PostHog) go in Vercel env; Rik adds them. Without them, leads go to `.data/` and mail prints to the console.
 - Any LLM call goes through OpenRouter, never a direct Anthropic key.

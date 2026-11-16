@@ -13,10 +13,9 @@ export const ENTITY = {
 // Rik, 29 Oct: one domain address for privacy, terms and replies. Rik sets up the mailbox or forwarding.
 export const CONTACT_EMAIL = "hello@artificialminded.com";
 
-// Rik, 15 Nov: the one CTA is a 45-minute call on Cal.com. Paste the event link here;
-// until then every call button renders as a visible placeholder.
-export const BOOKING_URL: string | null = null;
-export const CALL_LABEL = "Book a 45-minute call";
+// Rik, 15 Nov: the one CTA is a 30-minute call on Cal.com (account rikos, midcurvelabs@gmail.com).
+export const BOOKING_URL: string | null = "https://cal.com/rikos/30min";
+export const CALL_LABEL = "Book a 30-minute call";
 
 export const CLIENT_CAP = 2;
 
