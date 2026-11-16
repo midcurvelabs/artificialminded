@@ -1,79 +1,61 @@
-import Link from "next/link";
-import CallButton from "@/components/home/CallButton";
+import type { CSSProperties } from "react";
+import { SynapseBrain } from "../SynapseBrain";
 import { HOME } from "@/lib/home";
-import { ENTITY, WORDMARK } from "@/lib/site";
+import { BOOKING_URL, WORDMARK } from "@/lib/site";
 
-// The homepage. All copy is in lib/home.ts; this file is layout only.
-export default function Home() {
+// The homepage: the abstract brain, full-bleed, with small mono labels in the corners.
+// Copy lives in lib/home.ts. The only interactive element is the call link, top right.
+
+const MONO = "ui-monospace, 'SF Mono', Menlo, Monaco, 'Courier New', monospace";
+
+const corner: CSSProperties = {
+  position: "absolute",
+  left: "clamp(16px, 4vw, 32px)",
+  right: "clamp(16px, 4vw, 32px)",
+  display: "flex",
+  justifyContent: "space-between",
+  gap: 16,
+  fontFamily: MONO,
+  textTransform: "uppercase",
+  color: "#fff",
+  mixBlendMode: "difference",
+  pointerEvents: "none",
+  zIndex: 2,
+};
+
+export default function HomePage() {
   return (
-    <>
-      <header className="hm-head">
-        <div className="hm-shell">
-          <Link href="/" className="hm-mark" aria-label={`${WORDMARK} home`}>
-            <i aria-hidden="true" />
-            {WORDMARK}
-          </Link>
-          <CallButton label="Book a call" note={false} />
-        </div>
+    <main style={{ position: "fixed", inset: 0, background: "#ffffff", overflow: "hidden", cursor: "crosshair" }}>
+      <SynapseBrain />
+
+      <header style={{ ...corner, top: 28, alignItems: "baseline", fontSize: 11, letterSpacing: "0.18em" }}>
+        <h1 style={{ font: "inherit", margin: 0 }}>{WORDMARK}</h1>
+        {BOOKING_URL ? (
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener"
+            style={{ color: "inherit", textDecoration: "none", borderBottom: "1px solid currentColor", paddingBottom: 2, pointerEvents: "auto", cursor: "pointer" }}
+          >
+            {HOME.topRight} ↗
+          </a>
+        ) : (
+          <span style={{ opacity: 0.7 }} title="BOOKING_URL in lib/site.ts">
+            {HOME.topRight} [no link]
+          </span>
+        )}
       </header>
 
-      <main>
-        <section className="hm-hero">
-          <div className="hm-shell">
-            <p className="hm-label">{HOME.eyebrow}</p>
-            <h1 className="hm-h1">
-              <s>{HOME.struck}</s>
-              <span>{HOME.headline}</span>
-            </h1>
-            <p className="hm-sub">{HOME.sub}</p>
-            <CallButton />
-          </div>
-          <div className="hm-shell">
-            <ul className="hm-facts" aria-label="How we work">
-              {HOME.facts.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="hm-how" aria-labelledby="how-h">
-          <div className="hm-shell">
-            <h2 id="how-h" className="hm-label">{`// ${HOME.howLabel}`}</h2>
-            <ol className="hm-cards">
-              {HOME.how.map((c, i) => (
-                <li key={c.kicker}>
-                  <div className="hm-card-top">
-                    <span className="hm-kicker">{c.kicker}</span>
-                    <span className="hm-n">{String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                  <h3 className="hm-h3">{c.title}</h3>
-                  <p className="hm-body">{c.body}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="hm-close">
-          <div className="hm-shell">
-            <h2 className="hm-h2">{HOME.closing}</h2>
-            <CallButton note={false} />
-          </div>
-        </section>
-      </main>
-
-      <footer className="hm-foot">
-        <div className="hm-shell">
-          <span>
-            {WORDMARK}, part of {ENTITY.name}
-          </span>
-          <nav aria-label="Legal">
-            <Link href="/privacy">Privacy</Link>
-            <Link href="/terms">Terms</Link>
-          </nav>
+      <footer style={{ ...corner, bottom: 28, alignItems: "flex-end", fontSize: 10, letterSpacing: "0.16em" }}>
+        <p style={{ margin: 0, maxWidth: 440, lineHeight: 1.6, opacity: 0.85 }}>
+          {HOME.lines[0]}
+          <br />
+          {HOME.lines[1]}
+        </p>
+        <div style={{ textAlign: "right", opacity: 0.85, whiteSpace: "nowrap" }} className="hm-hide-sm">
+          {HOME.bottomRight}
         </div>
       </footer>
-    </>
+    </main>
   );
 }

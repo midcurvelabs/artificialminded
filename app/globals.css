@@ -4,3 +4,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body { -webkit-font-smoothing: antialiased; }
+
+/* homepage corner labels: drop the decorative one on phones */
+@media (max-width: 640px) { .hm-hide-sm { display: none; } }
