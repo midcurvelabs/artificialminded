@@ -6,9 +6,7 @@ export default function SiteFooter() {
     <footer className="am-foot">
       <div className="am-shell">
         <div>
-          {WORDMARK} is a brand of {ENTITY.name} · VAT {ENTITY.vat}
-          <br />
-          Prices in euro, excluding VAT.
+          {WORDMARK}, part of {ENTITY.name} · VAT {ENTITY.vat}
         </div>
         <nav aria-label="Legal">
           <Link href="/privacy">Privacy</Link>

@@ -1,6 +1,6 @@
 # ArtificialMinded
 
-AI-run content systems for founders. The consultancy site at artificialminded.com.
+AI implementation for agencies and SMBs. The agency site at artificialminded.com.
 
 ```bash
 npm install

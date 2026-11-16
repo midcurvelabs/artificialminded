@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { WORDMARK } from "@/lib/site";
+import { BOOKING_URL, WORDMARK } from "@/lib/site";
 
 export default function SiteHeader() {
   return (
@@ -10,9 +10,11 @@ export default function SiteHeader() {
           {WORDMARK}
         </Link>
         <nav className="am-nav" aria-label="Main">
-          <Link href="/rikgpt" className="am-hide-sm">The RikGPT build</Link>
-          <Link href="/#prices" className="am-hide-sm">Prices</Link>
-          <Link href="/test">Take the test</Link>
+          {BOOKING_URL ? (
+            <a href={BOOKING_URL} target="_blank" rel="noopener">Book a call</a>
+          ) : (
+            <Link href="/">Home</Link>
+          )}
         </nav>
       </div>
     </header>

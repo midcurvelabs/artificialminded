@@ -3,15 +3,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ArtificialMinded · AI-run content systems for founders",
+    default: "ArtificialMinded · AI implementation for agencies and SMBs",
     template: "%s · ArtificialMinded",
   },
   description:
-    "I build the AI pipeline and run the content engine on it, in public, on @rikgpt. Take the 2-minute test to see which of the two you need first.",
+    "AI agents and workflows built into the tools your team already uses. A person approves before anything goes out. EU hosted, GDPR.",
   metadataBase: new URL("https://artificialminded.com"),
   openGraph: {
     title: "ArtificialMinded",
-    description: "AI-run content systems for founders.",
+    description: "AI agents and workflows, built into the tools your team already uses.",
     url: "https://artificialminded.com",
     siteName: "ArtificialMinded",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ArtificialMinded",
-    description: "AI-run content systems for founders.",
+    description: "AI agents and workflows, built into the tools your team already uses.",
   },
 };
 
