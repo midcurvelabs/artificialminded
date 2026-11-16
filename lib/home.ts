@@ -7,7 +7,7 @@ export const HOME = {
   // Bottom-left: two short lines, the only positioning on the page.
   lines: [
     "AI agents and workflows for agencies and SMBs.",
-    "Built into the tools you already run. A human approves. EU hosted.",
+    "Built into the tools you already run. A human approves.",
   ] as const,
   bottomRight: "Process // Build // Approve",
 } as const;
